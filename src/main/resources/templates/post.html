@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link th:href="@{/bootstrap/css/bootstrap.min.css}"
+          rel="stylesheet" media="screen"/>
+
+
+    <script th:src="@{/jquery/jquery.min.js}"></script>
+    <script th:src="@{/popper/popper.min.js}"></script>
+    <script th:src="@{/bootstrap/js/bootstrap.min.js}"></script>
+    <title>Title</title>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-3">
+            <form th:action="@{/posts/post/save}" th:object="${post}" method="post">
+                <input type="text" th:field="*{id}" placeholder="Id" class="form-control"/>
+                <input type="text" th:field="*{subject}" placeholder="Subject" class="form-control"/>
+                <input type="text" th:field="*{text}" placeholder="text" class="form-control"/>
+                <button type="submit" class="btn btn-success">Add post</button>
+            </form>
+        </div>
+        <div class="col-9">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">Hash</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="item, iterStat : ${list}" th:class="${iterStat.odd}? 'odd'">
+                    <th th:text="${item.id}"></th>
+                    <th><a th:href="@{/posts/post/delete/{id}(id=${item.id})}" class="btn btn-danger">Delete</a></th>
+                </tr>
+                </tbody>
+            </table>
+            <nav aria-label="...">
+                <ul class="pagination">
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                    </li>
+                    <li class="page-item" th:each="page : ${totalPages}">
+                        <a class="page-link" th:href="@{/posts/{page}(page=${page} - 1 )}" th:text="${page}"></a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">Next</a>
+                    </li>
+                </ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+</body>
+</html>
